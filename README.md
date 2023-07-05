@@ -3,7 +3,7 @@ WIP. The goal of this project is to simulate a small real time dataflow with Apa
 
 # Installing Kafka, creating a topic and setting up a producer and a consumer
 
-Kafka requires a JDK installation, you can verify if this by using the following cmd command ```java -version```. If you get an error, you dont have  Java installed on your machine. You can download it for example from Oracle.
+Kafka requires a JDK installation, you can verify if you have it installed by using the following cmd command ```java -version```. If you get an error, you dont have  Java installed on your machine. If this is the case you can download it for example from Oracle.
 
 1. Download the Kafka files from https://dlcdn.apache.org/kafka/3.5.0/kafka_2.13-3.5.0.tgz
 2. Extract the package.
