@@ -26,4 +26,5 @@ for message in kafka_consumer:
     message_values = message.value
     timestamp, temperature, rh = message_values["timestamp"], message_values["temperature"], message_values["rh"]
     
-    # TODO logic to add values to the cassandra table
+    insert_query = f"INSERT INTO {CASSANDRA_TABLE} (sensor_id, timestamp, temperature, rh) VALUES ('{sensor_id}', '{timestamp}', {temperature}, {rh});"
+    cassandra_session.execute(insert_query)
