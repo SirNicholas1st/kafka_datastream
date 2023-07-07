@@ -1,5 +1,5 @@
 # Project overview
-WIP. The goal of this project is to simulate a small real time dataflow with Apache Kafka and save the data to Apache Cassandra.
+This project simulates a small real time dataflow with Apache Kafka and the data is saved to a Cassandra table. The readme contains instructions on how to set up Kafka and Cassandra on Windows.
 
 # Installing Kafka, creating a topic and setting up a producer and a consumer
 
@@ -18,7 +18,9 @@ That pretty much covers setting up Apache Kafka. If you want to make sure that t
 
 ![Consumer test](pics/consumer_test.png)
 
-In the end you should have 3 or 4 cmds open: zookeeper, kafka server, consumer and producer. You can close them down with **CTRL + C**. If you encounter an error where the commands "are too long" etc. Try to make the path shorter by shortening folder names etc.
+In the end you should have 3 or 4 cmds open: zookeeper, kafka server, consumer and producer. You can close them down with **CTRL + C** when you are done. If you encounter an error where the commands "are too long" etc. Try to make the path shorter by shortening folder names etc.
+
+NOTE: When running the project, the Zookeeper, Kafka server and Kafka consumer must be up and running.
 
 # Setting up Cassandra and creating a keyspace
 
@@ -36,4 +38,29 @@ Now Cassandra is up and running, the next step is to create a keyspace for the p
 5. Now we can create the keyspace using the following Cassandra Query Language (CQL): ```CREATE KEYSPACE IF NOT EXISTS kafka_datastream WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : '1' };``` NOTE: You cannot use "-" in the keyspace names, the keyspace in Cassandra is like a schema in a relational database which can contain multiple tables.
 6. You can check if the keyspace had been created succesfully by using the following command: ```desc keyspaces```.
 ![Cassandra keyspaces](pics/Cassandra_keyspaces.png)
+
+# Running the simulated real time datastream
+
+1. Set up Kafka according to the instructions and leave Zookeeper, Kafka server and Kafka consumer running.
+2. Set up Cassandra according to instructions and leave the Docker container running.
+3. Run consumer.py
+4. Run producer.py
+
+# Review the data in Cassandra
+
+1. Open up a cmd and and go inside the container with ```docker exec -it cassandra bash```
+2. Start a Cassandra shell with ```cqlsh```
+3. Use the created keyspace with ```use kafka_datastream```. Match the command with the created keyspace name.
+4. Run a cql query to select data from the table, for example ```select * from datastream_table;```. NOTE if you have uploaded a ton of data it might be a good idea to specify a limit for rows to be retrieved like: ```select * from datastream_table limit 5;```
+5. The output will be a table with the inserted data:
+![Cassandra data](pics/Cassandra_data.png)
+
+# Closing down
+
+1. Stop the producer.py with **CTRL + C**
+2. Stop the consumer.py with **CTRL + C**
+3. Stop the Kafka consumer with **CTRL + C**
+4. Stop the Kafka server with **CTRL + C**
+5. Stop the Zookeeper with **CTRL + C**
+6. Close the Cassandra container from the desktop UI or from the cmd with ```docker stop cassandra```
 
